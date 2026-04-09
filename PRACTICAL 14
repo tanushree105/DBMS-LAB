@@ -1,0 +1,148 @@
+1. create a table emp2 with fields empno as int, name as charactor, cateagory as int(take only 3 catagories i.e., 1, 2 & 3)
+
+CREATE TABLE emp2 (
+    empno INT PRIMARY KEY,
+    name VARCHAR(50),
+    category INT CHECK (category IN (1, 2, 3))
+);
+
+Table created.
+
+------------------------------------------------------------------------------------------------------------------
+
+2. design a trigger for insertion or updation a new record in capital letter only
+(HINT: name=upper(name)
+
+CREATE OR REPLACE TRIGGER trg_emp2_caps
+BEFORE INSERT OR UPDATE ON emp2
+FOR EACH ROW
+BEGIN
+    :NEW.name := UPPER(:NEW.name);
+END;
+/
+
+Trigger created.
+output:
+SQL> DESC emp2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(50)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER
+
+SQL> INSERT INTO emp2 (EMPNO, NAME) VALUES (1, 'john doe');
+
+1 row created.
+
+SQL> SELECT EMPNO, NAME FROM emp2;
+
+     EMPNO NAME
+---------- --------------------------------------------------
+         1 JOHN DOE
+------------------------------------------------------------------------------------------------------------------
+
+3. add another field salary as number to the table
+
+ALTER TABLE emp2
+ADD salary NUMBER;
+
+Table altered.
+------------------------------------------------------------------------------------------------------------------
+
+4. design a trigger for insertion or updation for the following
+	
+(a) if category is 1 then salary should be more than 10000
+(b) if category is 2 then salary should be more than 20000
+(c) if category is 3 then salary should be more than 30000
+
+CREATE OR REPLACE TRIGGER trg_salary_check_emp2
+BEFORE INSERT OR UPDATE ON EMP2
+FOR EACH ROW
+BEGIN
+    IF :NEW.category = 1 AND :NEW.salary <= 10000 THEN
+        DBMS_OUTPUT.PUT_LINE('Warning: Salary should be more than 10000 for category 1');
+    ELSIF :NEW.category = 2 AND :NEW.salary <= 20000 THEN
+        DBMS_OUTPUT.PUT_LINE('Warning: Salary should be more than 20000 for category 2');
+    ELSIF :NEW.category = 3 AND :NEW.salary <= 30000 THEN
+        DBMS_OUTPUT.PUT_LINE('Warning: Salary should be more than 30000 for category 3');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Category OK or salary is sufficient.');
+    END IF;
+END;
+/
+
+Trigger created.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> INSERT INTO emp2 (EMPNO, NAME, CATEGORY, SALARY)
+  2  VALUES (2, 'Bob Brown', 1, 9000);
+Warning: Salary should be more than 10000 for category 1
+
+1 row created.
+
+SQL> INSERT INTO emp2 (EMPNO, NAME, CATEGORY, SALARY)
+  2  VALUES (3, 'Alice Green', 2, 25000);
+Category OK or salary is sufficient.
+
+1 row created.
+
+SQL> SELECT * FROM emp2;
+
+     EMPNO NAME                                                 CATEGORY
+---------- -------------------------------------------------- ----------
+    SALARY
+----------
+         1 JOHN DOE
+
+
+         2 BOB BROWN                                                   1
+      9000
+
+         3 ALICE GREEN                                                 2
+     25000
+------------------------------------------------------------------------------------------------------------------
+
+5. 
+create or replace procedure to_month
+as
+    v_month varchar2(10);
+begin
+    v_month := upper(to_char(sysdate, 'mon'));
+    dbms_output.put_line('the current month is ' || v_month);
+end;
+/
+
+Procedure created.
+
+SQL> set serveroutput on;
+SQL> exec to_month;
+the current month is MAR
+
+PL/SQL procedure successfully completed.
+
+-----------------------------------------------------------------------------------------------------------------
+
+6. design a trigger to stop insertion or updation in the table for the days like sat or sun of any date (for practice purpose take the day as 'tue')
+
+
+create or replace trigger trg_block_day_emp2
+before insert or update on emp2
+for each row
+begin
+    if to_char(sysdate, 'dy', 'nls_date_language=english') = 'tue' then
+        dbms_output.put_line('warning: insert/update happening on tuesday!');
+    else
+        dbms_output.put_line('insert/update allowed today.');
+    end if;
+end;
+/
+
+Trigger created.
+
+SQL> set serveroutput on;
+SQL> insert into emp2 (empno, name, category, salary)
+  2  values (5, 'practice user', 2, 25000);
+warning: insert/update happening on tuesday!
+Category OK or salary is sufficient.
+----------------------------------------------------------------------------------------------------------------
