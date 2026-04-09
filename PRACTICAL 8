@@ -1,0 +1,63 @@
+CREATE OR REPLACE PROCEDURE GreatestOfThree
+AS
+    a NUMBER := 10;
+    b NUMBER := 20;
+    c NUMBER := 15;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Greatest number is: ' ||
+        CASE 
+            WHEN a >= b AND a >= c THEN a
+            WHEN b >= a AND b >= c THEN b
+            ELSE c
+        END);
+END;
+/
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> Execute GreatestOfThree;
+Greatest number is: 20
+
+PL/SQL procedure successfully completed.
+------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE Sub_Avg (
+    cn IN NUMBER, 
+    dbms IN NUMBER, 
+    ifds IN NUMBER, 
+    cmbs IN NUMBER
+) AS
+    total NUMBER;
+    per NUMBER(5,2);
+BEGIN
+    total := cn + dbms + ifds + cmbs;
+    per := (total / 400) * 100;
+
+    IF cn < 40 OR dbms < 40 OR ifds < 40 OR cmbs < 40 THEN
+        DBMS_OUTPUT.PUT_LINE('FAIL');
+    ELSE
+        IF per > 75 THEN
+            DBMS_OUTPUT.PUT_LINE('DISTINCTION'); 
+        ELSIF per > 60 THEN
+            DBMS_OUTPUT.PUT_LINE('FIRST CLASS'); 
+        ELSIF per > 50 THEN
+            DBMS_OUTPUT.PUT_LINE('SECOND CLASS');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('PASS');
+        END IF;
+
+        DBMS_OUTPUT.PUT_LINE('PERCENTAGE IS ' || per);
+    END IF;
+END;
+/
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> EXECUTE Sub_Avg(85, 75, 80, 90);
+DISTINCTION
+PERCENTAGE IS 82.5
+
+PL/SQL procedure successfully completed.
+-------------------------------------------------------------------------------------------
