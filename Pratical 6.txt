@@ -1,0 +1,63 @@
+23rd Feb 2026
+Pratical 6
+
+create procedure hello_world
+BEGIN
+	DBMS_OUTPUT.PUT_LINE('Hello, world!');
+    END;
+   /
+
+
+
+BEGIN
+	DBMS_OUTPUT.PUT_LINE('Hello world welcome to sit!');
+    END;
+   /
+
+
+'''''''''''''''''''
+CREATE OR REPLACE PROCEDURE Add_proc
+AS
+   a NUMBER;
+   b NUMBER;
+BEGIN
+   a := 5;
+   b := 10;
+
+   DBMS_OUTPUT.PUT_LINE('Result: ' || (a + b));
+END;
+/
+
+Procedure created.
+
+......................
+
+CREATE OR REPLACE PROCEDURE ADD1 (
+    a IN NUMBER,
+    b IN NUMBER,
+    c OUT NUMBER
+)
+AS
+BEGIN
+    c := a + b; 
+    DBMS_OUTPUT.PUT_LINE('Result: ' || c);
+END;
+/
+
+Procedure created.
+...................................
+
+DECLARE
+   a NUMBER := 5;
+   b NUMBER := 10;
+BEGIN
+   a := a + b;
+   b := a - b;
+   a := a - b;
+
+   DBMS_OUTPUT.PUT_LINE('a = ' || a);
+   DBMS_OUTPUT.PUT_LINE('b = ' || b);
+END;
+/
+
+PL/SQL procedure successfully completed.
