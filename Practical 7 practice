@@ -1,0 +1,93 @@
+while loop
+syntax:
+	begin
+	initialization st;
+	while cond loop
+	True st,
+	increment/decrement
+end loop;
+end;
+
+CREATE OR REPLACE PROCEDURE SumF10 
+AS
+    i NUMBER := 1;
+    s NUMBER := 0;
+BEGIN
+    WHILE i <= 10 LOOP
+        s := s + i;
+        i := i + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Result of sum: ' || s);
+END;
+/
+-----------------------------------------------------------------------------------
+
+
+(1-N num loop)
+CREATE OR REPLACE PROCEDURE SumFN
+AS
+    i NUMBER := 1;
+    n NUMBER := 10;
+    s NUMBER := 0;
+BEGIN
+    WHILE i <= n LOOP
+        s := s + i;
+        i := i + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Result of sum: ' || s);
+END;
+/
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> EXECUTE SumFN;
+Result of sum: 55
+
+PL/SQL procedure successfully completed.
+----------------------------------------------------------------------------------------
+
+(FOR LOOP) == 1-N num;
+CREATE OR REPLACE PROCEDURE SumFN
+AS
+    n NUMBER := 10;
+    s NUMBER := 0;
+BEGIN
+    FOR i IN 1..n LOOP
+        s := s + i;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Result of sum: ' || s);
+END;
+/
+
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> execute SumFN;
+Result of sum: 55
+
+PL/SQL procedure successfully completed.
+---------------------------------------------------------------------------
+(FOR LOOP == 1 to 10)
+
+CREATE OR REPLACE PROCEDURE SumFN
+AS
+    s NUMBER := 0;
+BEGIN
+    FOR i IN 1..10 LOOP
+        s := s + i;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Result of sum: ' || s);
+END;
+/
+
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> EXECUTE SumFN;
+Result of sum: 55
+
+PL/SQL procedure successfully completed.
+------------------------------------------------------------------------------
