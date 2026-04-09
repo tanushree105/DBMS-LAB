@@ -1,0 +1,54 @@
+Display names of all the instructor concatenated with their department names.
+
+select name, dept_id from instructor;
+select name, dept_id from department;
+NAME                                                  DEPT_ID
+-------------------------------------------------- ----------
+Computer Science                                            1
+Mathematics                                                 2
+Physics                                                     3
+Biology                                                     4
+Chemistry                                                   5
+English                                                     6
+History                                                     7
+
+(Q)Display names of all the instructors concatenated wuth their department names.
+select i.name || '-' || d.name from instructor i join department d on i.dept_id=d.dept_id;
+
+I.NAME||'-'||D.NAME
+--------------------------------------------------------------------------------
+John Doe-Computer Science
+Jane Smith-Computer Science
+Bob Johnson-Mathematics
+Alice Brown-Mathematics
+Charlie Davis-Physics
+Eva Wilson-Physics
+Frank Miller-Biology
+John Doe-Computer Science
+Jane Smith-Computer Science
+Bob Johnson-Mathematics
+
+10 rows selected.
+
+
+1)Display all employee names that starts with "a" and are at least 3 characters length
+SQL> select First_name from emp where lower(first_name) like 'a%'and length(first_name) >= 3;
+
+Q)Retrieve distinct number of instructor from each department.
+select count(distinct Instructor_id) as inst_each_dept,d.name from instructor i join department d on i.dept_id = d.dept_id group by d.name;
+
+INST_EACH_DEPT NAME
+-------------- --------------------------------------------------
+             3 Mathematics
+             2 Physics
+             4 Computer Science
+             1 Biology
+
+
+Q) Find the names of all instructors whose salary is greater than atleast one instructor in the Biology department.
+--> select i.name, i.salary from instructor i join department d on i.dept_id=d.dept_id where i.salary > any biology salary; 
+
+
+
+#I CHANGED THE NAME OF emp_new to dept_new;
+SELECT * FROM dept_new; 
