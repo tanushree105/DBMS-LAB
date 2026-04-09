@@ -1,0 +1,41 @@
+ 1. select * from tab;
+ 2. desc st_info;
+ 3. select max(prn) from st_info;
+ 4. create sequence st_sq start with 108 increment by 1;
+ 5. insert into st_info (prn,name, m1,m2,m3) values (st_sq.nextval,'xa108',09,10,11);
+
+
+
+to create sequence:
+create sequence st_sq start with 108 increment by 1;
+
+create sequence emp_sq start with 1 increment by 1;
+
+create table emp (emp_id int primary key, name varchar2(20));
+
+insert into emp values(emp_sq.nextval, 'x1',4568736458);
+insert into emp values(emp_sq.nextval, 'x2',4854687999);
+insert into emp values(emp_sq.nextval, 'x3',9784568787);
+insert into emp values(emp_sq.nextval, 'x4',7687478786);
+insert into emp values(emp_sq.nextval, 'x5',4789459797);
+insert into emp values(emp_sq.nextval, 'x6',7777778998);
+insert into emp values(emp_sq.nextval, 'x7',8989895556);
+insert into emp values(emp_sq.nextval, 'x8',8975468521);
+insert into emp values(emp_sq.nextval, 'x9',8795156688);
+
+select * from emp;
+==9 row selected.
+sequence double paste kra toh same value new prn(value) k sath aajaygye.
+
+
+to add field to emp;
+alter table emp add mobile number;
+
+#sirf ek he num pr aayega mobile_no
+insert into emp (emp_id, name, mobile_no) values (emp_sq.nextval, 'abc', 9876543210);
+
+#to delete the data from table:
+truncate table emp;
+
+#to  delete sequence:
+drop sequence emp_sq
