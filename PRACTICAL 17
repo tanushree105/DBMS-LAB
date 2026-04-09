@@ -1,0 +1,87 @@
+PRACTICAL 17
+
+
+SQL> CREATE TABLE EMP2_AUD AS SELECT *FROM EMP2 WHERE 1=2;
+
+Table created.
+
+SQL> SELECT *FROM EMP2;
+
+     EMPNO NAME                                                 CATEGORY
+---------- -------------------------------------------------- ----------
+    SALARY
+----------
+         5 PRACTICE USER                                               2
+     25000
+
+         1 JOHN DOE
+
+
+         2 BOB BROWN                                                   1
+      9000
+
+
+     EMPNO NAME                                                 CATEGORY
+---------- -------------------------------------------------- ----------
+    SALARY
+----------
+         3 ALICE GREEN                                                 2
+     25000
+
+
+SQL> SELECT *FROM EMP2_AUD;
+
+no rows selected
+
+SQL> DESC EMP2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(50)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER
+
+SQL> DESC EMP2_AUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ NAME                                               VARCHAR2(50)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER
+
+
+TO ADD NEW SALARY AND MODIFICATION DATE IN AUDIT TABLE
+
+SQL> ALTER TABLE EMP2_AUD ADD NEW_SALARY NUMBER;
+
+Table altered.
+
+SQL> ALTER TABLE EMP2_AUD ADD MOD_DATE DATE;
+
+Table altered.
+
+SQL> DESC EMP2_AUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ NAME                                               VARCHAR2(50)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER
+ NEW_SALARY                                         NUMBER
+ MOD_DATE                                           DATE
+---------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER EMP2_AUD_TRI
+AFTER UPDATE OF SALARY ON EMP2
+FOR EACH ROW
+BEGIN
+    INSERT INTO EMP2_AUD 
+    (EMPNO, NAME, CATEGORY, SALARY, NEW_SALARY, MOD_DATE) 
+    VALUES 
+    (:OLD.EMPNO, :OLD.NAME, :OLD.CATEGORY, :OLD.SALARY, :NEW.SALARY, SYSDATE);
+END;
+/
+
+Trigger created.
+
+----------------------------------------------------------------------------------------------------------------
