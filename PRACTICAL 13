@@ -1,0 +1,47 @@
+PRACTICAL 13
+
+CREATE OR REPLACE TRIGGER tri_st
+BEFORE UPDATE ON St_info
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('This is statement level trigger fired');
+END;
+/
+
+ Trigger created.
+SET SERVEROUTPUT ON;
+update st_info set total = sub1 + sub2 +sub3 + sub4;
+This is statement level trigger fired
+
+10 rows updated.
+----------------------------------------------------------------------------------------------------------------
+
+
+
+SQL> CREATE OR REPLACE TRIGGER tri_row
+  2  BEFORE INSERT OR UPDATE ON St_info
+  3  FOR EACH ROW
+  4  BEGIN
+  5     :NEW.sub1 := LEAST(GREATEST(:NEW.sub1, 0), 100);
+  6     :NEW.sub2 := LEAST(GREATEST(:NEW.sub2, 0), 100);
+  7     :NEW.sub3 := LEAST(GREATEST(:NEW.sub3, 0), 100);
+  8     :NEW.sub4 := LEAST(GREATEST(:NEW.sub4, 0), 100);
+  9  END;
+ 10  /
+
+Trigger created.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> INSERT INTO st_info (roll, name, sub1, sub2, sub3, sub4)
+  2  VALUES (11, 'Test', -10, 120, 50, 200);
+
+1 row created.
+
+SQL> SELECT * FROM st_info WHERE roll = 11;
+
+      ROLL NAME                                 SUB1       SUB2       SUB3
+---------- ------------------------------ ---------- ---------- ----------
+      SUB4      TOTAL       PERC RESULT
+---------- ---------- ---------- ----------
+        11 Test                                    0        100         50
+       100
+-----------------------------------------------------------------------------------------------------------------
