@@ -1,0 +1,33 @@
+1. create
+create table st_info (prn int, name varchar2(20), m1 number, m2 number, m3 number)
+Table created.
+
+2. to see the attributes in the table or table structure:
+desc st_info #st_info is the table who's structure will be displayed
+
+3. Insert data in the table
+insert into st_info (101, 'xyz', 65, 75, 85); #error missing SELECT keyword
+insert into st_info value (101, 'xyz', 65, 75, 85); 
+1 row created.
+
+4.add column to st_info;
+alter table st_info add total number;
+alter table st_info add perc number;
+
+insert info st_info values( 101, 'abc', 5, 7, 8); #error; not enough values because values for total and perc is not given
+
+
+insert into st_info values (101, 'aanu', 12, 22, 32, null,null); 
+insert into st_info values (102, 'renuka', 13, 33, 43, null,null); 
+insert into st_info values (103, 'sumira', 14, 44, 53, null,null); 
+insert into st_info values (104, 'anushka', 15, 55, 63, null,null); 
+insert into st_info values (105, 'riddhi', 16, 66, 73, null,null); 
+insert into st_info values (106, 'ani', 17, 77, 83, null,null); 
+insert into st_info values (107, 'arushi', 18, 88, 93, null,null); 
+insert into st_info values (108, 'veera', 19, 99, 23, null,null); 
+
+all row created
+
+
+ select * from st_info;
+=9rows created.  (TABLE)
