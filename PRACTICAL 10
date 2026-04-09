@@ -1,0 +1,145 @@
+select *from emp_new;
+
+EMP_ID EMP_NAME              SALARY DEPARTMENT
+------ -------------------- ------- ------------------------------
+     1 John Smith             50000 Finance
+     2 Alice Brown            62000 HR
+     3 Robert King            45000 IT
+     4 Emily Clark            70000 Marketing
+     5 David Wilson           80000 Finance
+     6 Sophia Turner          55000 IT
+     7 Michael Scott          90000 Management
+
+7 rows selected.
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE first_exception (n IN NUMBER)
+AS
+    vname   emp_new.emp_name%TYPE;
+    vsalary emp_new.salary%TYPE;
+BEGIN
+    -- Try to select the employee
+    SELECT emp_name, salary
+    INTO vname, vsalary
+    FROM emp_new
+    WHERE emp_id = n;
+
+    -- Print the results
+    DBMS_OUTPUT.PUT_LINE('Name   = ' || vname);
+    DBMS_OUTPUT.PUT_LINE('Salary = ' || vsalary);
+
+EXCEPTION
+    -- Handle case when no employee is found
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee with emp_id = ' || n || ' not found');
+END first_exception;
+/
+
+Procedure created.
+
+SQL>  set serveroutput on
+SQL> EXEC first_exception(3);
+Name   = Robert King
+Salary = 45000
+
+PL/SQL procedure successfully completed.
+
+SQL> EXEC first_exception(10);
+Employee with emp_id = 10 not found
+
+PL/SQL procedure successfully completed.
+-------------------------------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE first_exception (n IN NUMBER)
+AS
+    vname   employees.emp_name%TYPE;
+    vsalary employees.salary%TYPE;
+BEGIN
+    -- Try to select the employee
+    SELECT emp_name, salary
+    INTO vname, vsalary
+    FROM emp_new
+    WHERE emp_id = n;
+
+    -- Print the results
+    DBMS_OUTPUT.PUT_LINE('Name   = ' || vname);
+    DBMS_OUTPUT.PUT_LINE('Salary = ' || vsalary);
+
+EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee with emp_id = ' || n || ' not found');
+END first_exception;
+/
+
+
+SQL> select *from EMPLOYEES;
+
+EMP_ID EMP_NAME                DEPT_ID  SALARY MANAGER_ID
+------ -------------------- ---------- ------- ----------
+     1 John                        101    5000
+     2 Alice                       102    3000          1
+     3 Robert                      101    4000          1
+     4 Michael                     103    7000
+     5 Susan                       102    3500          2
+     6 Nancy                       104    4200
+     7 David                       103    3900          4
+     8 Laura                       101    5200          3
+
+8 rows selected.
+------------------------------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE first_dept_id (n IN NUMBER)
+AS
+    vname   emp_new.emp_name%TYPE;
+    vsalary emp_new.salary%TYPE;
+BEGIN
+    SELECT emp_name, salary
+    INTO vname, vsalary
+    FROM emp_new
+    WHERE emp_id = n;
+
+    DBMS_OUTPUT.PUT_LINE('Name   = ' || vname);
+    DBMS_OUTPUT.PUT_LINE('Salary = ' || vsalary);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee with emp_id = ' || n || ' not found');
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('Many employees found with emp_id = ' || n);
+END first_dept_id;
+/
+Procedure created.
+-------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE check_marks (m1 IN NUMBER, m2 IN NUMBER, m3 IN NUMBER)
+AS
+BEGIN
+    -- BEGIN marks checking block
+    IF m1 >= 35 AND m2 >= 35 AND m3 >= 35 THEN
+        -- PASS case
+        DBMS_OUTPUT.PUT_LINE('PASS: Marks are ' || m1 || ', ' || m2 || ', ' || m3);
+    ELSE
+        -- FAIL case
+        DBMS_OUTPUT.PUT_LINE('FAIL: Marks are ' || m1 || ', ' || m2 || ', ' || m3);
+    END IF;
+END check_marks;
+/
+
+Procedure created.
+------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION add_numbers(a IN NUMBER, b IN NUMBER)
+RETURN NUMBER
+AS
+    c NUMBER;
+BEGIN
+    c := a + b; 
+    RETURN c;    
+END add_numbers;
+/
+
+Function created.
+---------------------------------------------------------------------------------------------------------
