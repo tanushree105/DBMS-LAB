@@ -1,0 +1,80 @@
+Display all employee names that starts with "a" and are at least 3 characters length
+select First_name from dept_new where lower(first_name) like 'a%'and length(first_name) >= 3;
+
+FIRST_NAME
+--------------
+Adam
+Alan
+Alice
+
+Display departments having Dollas, New York and Chicago locations
+select name, location from departments where lower(location) = 'dallas' or lower(location)='new york' or lower(location) ='chicago';
+OR 
+select name, location from departments where lower(location) in ('dallas','new york','chicago');
+
+Display the names of employees who are working as clerk, salesman or analyst and drawing a salary more than 3000.
+select first_name, job, salary from dept_new where salary>=3000 and lower(job) in ('clerk','salesman','analyst');
+
+
+FIRST_NAME     JOB                      SALARY
+-------------- -------------------- ----------
+Alan           ANALYST                    3000
+
+
+select first_name, job, salary from dept_new;
+
+FIRST_NAME     JOB                      SALARY
+-------------- -------------------- ----------
+John           MANAGER                    5000
+James          CLERK                      2450
+Scott          SALESMAN                   2975
+Adam           CLERK                      1300
+Bob            CLERK                       850
+Alan           ANALYST                    3000
+George         CLERK                      1100
+Alice          CLERK                      1600
+Diana          SALESMAN                   2950
+
+9 rows selected.
+
+select first_name, max(salary) as max_sal from dept_new group by first_name;
+
+FIRST_NAME        MAX_SAL
+-------------- ----------
+John                 5000
+Alice                1600
+Bob                   850
+Alan                 3000
+Diana                2950
+George               1100
+Scott                2975
+James                2450
+Adam                 1300
+
+9 rows selected.
+
+
+Display the name of emp who earns highest salary
+ select max(salary) as max_sal from dept_new;
+
+ MAX_SAL
+----------
+      5000
+
+select avg(salary) from dept_new;
+
+AVG(SALARY)
+-----------
+ 2358.33333
+
+select first_name, salary from dept_new where salary = (select max(salary) from dept_new);
+
+FIRST_NAME         SALARY
+-------------- ----------
+John                 5000
+
+Display the employee number and name of employee working as CLERK and earning highest salary among CLERK.
+select emp_no, first_name, salary from dept_new where salary=(select max(salary) from dept_new where lower(job) = 'clerk');
+  EMP_NO FIRST_NAME         SALARY
+---------- -------------- ----------
+      7566 James                2450
